@@ -22,6 +22,7 @@ module OmniAuth
       ]
 
       def request_phase
+        logger.info "request_phase"
         req = Rack::Request.new(@env)
         options.update(req.params)
         ua = req.user_agent.to_s
@@ -33,6 +34,7 @@ module OmniAuth
       end
 
       def auth_hash
+         logger.info "auth_hash"
         signed_value = access_token.params['id'] + access_token.params['issued_at']
         raw_expected_signature = OpenSSL::HMAC.digest('sha256', options.client_secret.to_s, signed_value)
         expected_signature = Base64.strict_encode64 raw_expected_signature
@@ -66,6 +68,7 @@ module OmniAuth
       end
 
       def raw_info
+        logger.info "auth_hash"
         access_token.options[:mode] = :query
         access_token.options[:param_name] = :oauth_token
         @raw_info ||= access_token.post(access_token['id']).parsed
@@ -83,14 +86,17 @@ module OmniAuth
     end
 
     class SalesforceSandbox < OmniAuth::Strategies::Salesforce
+      logger.info "SalesforceSandbox"
       default_options[:client_options][:site] = 'https://test.salesforce.com'
     end
 
     class DatabaseDotCom < OmniAuth::Strategies::Salesforce
+      logger.info "DatabaseDotCom"
       default_options[:client_options][:site] = 'https://login.database.com'
     end
 
     class SalesforcePreRelease < OmniAuth::Strategies::Salesforce
+      logger.info "SalesforcePreRelease"
       default_options[:client_options][:site] = 'https://prerellogin.pre.salesforce.com/'
     end
 

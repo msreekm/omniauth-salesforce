@@ -1,6 +1,7 @@
 require 'omniauth-oauth2'
 require 'openssl'
 require 'base64'
+require 'logger'
 
 module OmniAuth
   module Strategies
@@ -20,7 +21,7 @@ module OmniAuth
         :state,
         :prompt
       ]
-      logger = Logger.new
+      logger = Logger.new(STDOUT)
       def request_phase
         logger.info "request_phase"
         req = Rack::Request.new(@env)

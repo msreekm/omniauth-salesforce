@@ -20,7 +20,7 @@ module OmniAuth
         :state,
         :prompt
       ]
-
+      logger = Logger.new
       def request_phase
         logger.info "request_phase"
         req = Rack::Request.new(@env)
